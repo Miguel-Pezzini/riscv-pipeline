@@ -4,20 +4,36 @@ Itens organizados por prioridade. Bugs silenciosos (decodificação errada sem e
 
 ---
 
-## Melhorias no pipeline
+## Simulação Real de Execução
 
-- [x] **Suporte a `LH` e `LHU` no I-Type (loads de halfword)**
-  - funct3=0x1 (LH) e funct3=0x5 (LHU)
-  - Mesma estrutura de LW/LB
+Design completo em [docs/simulator-spec.md](docs/simulator-spec.md) e [docs/simulator-implementation.md](docs/simulator-implementation.md).
+
+### Infraestrutura
+- [ ] **Passo 1** — `pkg/memory/memory.go`: sparse map, load/store byte/half/word, little-endian, alinhamento
+- [ ] **Passo 2** — `pkg/cpu/state.go`: 32 registradores, PC, referência à memória, x0 hardwired
+- [ ] **Passo 3** — `pkg/isa/cpu_state.go`: interface `CPUState` (evita import cycle), adicionar `Execute(CPUState) error` à interface `Instruction` e ao `BaseInstruction`
+- [ ] **Passo 4** — `pkg/loader/loader.go`: lê arquivo bin/hex, carrega instruções em `.text` (0x00400000), inicializa sp
+
+### Executor
+- [ ] **Passo 5** — `pkg/executor/executor.go`: loop fetch-decode-execute, `Step()` e `Run()`
+- [ ] **Passo 7** — `cmd/simulator/main.go`: entrypoint com flags `--format`, `--trace`, `--dump-regs`
+- [ ] **Passo 8** — `pkg/executor/trace.go`: output `[PC] mnemônico │ efeito`
+
+### Implementar `Execute` nas instruções
+- [ ] **Passo 6a** — R-Type: ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT, SLTU
+- [ ] **Passo 6b** — I-Type aritmético: ADDI, ANDI, ORI, XORI, SLLI, SRLI, SRAI, SLTI, SLTIU
+- [ ] **Passo 6c** — I-Type loads: LW, LH, LHU, LB (LBU ainda falta no decoder)
+- [ ] **Passo 6d** — S-Type stores: SW, SH, SB
+- [ ] **Passo 6e** — B-Type branches: BEQ, BNE, BLT, BGE, BLTU, BGEU
+- [ ] **Passo 6f** — J-Type / JALR: JAL, JALR
+- [ ] **Passo 6g** — U-Type: LUI, AUIPC
+
+### Testes
+- [ ] **Passo 9** — Teste de integração: executar fibonacci de `testdata/hex.txt`, verificar resultado em `a0`
 
 ---
 
-## Qualidade de código
+## Instruções ainda faltando no decoder
 
-- [x] **Inconsistência de naming: `NewANDI` vs `newXXX`**
-  - `pkg/isa/itype/andi.go:9` — único construtor com `N` maiúsculo
-  - Padronizar para `newANDI`
-
-- [x] **Caminhos de arquivo hardcoded no main**
-  - `cmd/resolver/main.go:16-17` — `testdata/bin.txt` e `testdata/hex.txt` fixos
-  - Aceitar caminho via argumento de linha de comando (`os.Args`)
+- [ ] LBU (I-Type, funct3=0x4 em OP_LOAD)
+- [ ] U-Type: LUI (0x37) e AUIPC (0x17) — `utype/type.go` existe mas instâncias específicas?
