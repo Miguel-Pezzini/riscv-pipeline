@@ -48,10 +48,16 @@ func (b *Type) findInstruction() isa.Instruction {
 		switch b.Funct3 {
 		case FUNCT3_BEQ:
 			return newBEQ(*b)
-		case FUNCT3_BLT:
-			return newBLT(*b)
 		case FUNCT3_BNE:
 			return newBNE(*b)
+		case FUNCT3_BLT:
+			return newBLT(*b)
+		case FUNCT3_BGE:
+			return newBGE(*b)
+		case FUNCT3_BLTU:
+			return newBLTU(*b)
+		case FUNCT3_BGEU:
+			return newBGEU(*b)
 		}
 	}
 	return b

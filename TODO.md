@@ -4,20 +4,6 @@ Itens organizados por prioridade. Bugs silenciosos (decodificação errada sem e
 
 ---
 
-## Bugs críticos
-
-- [ ] **S-Type: SB e SH decodificados como SW**
-  - `pkg/isa/stype/type.go` — `findInstruction` ignora funct3 e sempre retorna `newSW`
-  - Resultado: SB/SH silenciosamente simulados como SW
-  - Criar `sb.go` e `sh.go`, adicionar `case FUNCT3_SB` e `case FUNCT3_SH` no switch
-
-- [ ] **B-Type: BGE, BLTU, BGEU sem implementação**
-  - `pkg/isa/btype/type.go` — constantes definidas mas sem `case` no switch
-  - Resultado: instrução não reconhecida, retorna objeto base sem metadados
-  - Criar `bge.go`, `bltu.go`, `bgeu.go` e registrar no switch
-
----
-
 ## Bugs menores
 
 - [ ] **JALR marcado como `IsBranch: true` e `IsJump: true` simultaneamente**
