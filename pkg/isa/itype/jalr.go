@@ -13,7 +13,7 @@ func newJALR(t Type) *JALR {
 		OpCode:         uint32(t.OpCode),
 		IsLoad:         false,
 		IsStore:        false,
-		IsBranch:       true, // é um salto
+		IsBranch:       false,
 		IsJump:         true,
 		WritesRegister: true, // grava o PC+4 em Rd
 		ReadsRegister:  true,
