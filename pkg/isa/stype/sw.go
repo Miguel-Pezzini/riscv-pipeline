@@ -19,7 +19,7 @@ func newSW(t Type) *SW {
 		ReadsRegister:  true,
 		Rs:             []int{int(t.Rs1), int(t.Rs2)},
 		Rd:             nil,
-		ProduceStage:   0,
+		ProduceStage:   isa.WB,
 		ConsumeStage:   isa.ID,
 	}
 	return inst

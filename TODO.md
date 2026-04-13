@@ -6,16 +6,6 @@ Itens organizados por prioridade. Bugs silenciosos (decodificação errada sem e
 
 ## Bugs menores
 
-- [ ] **JALR marcado como `IsBranch: true` e `IsJump: true` simultaneamente**
-  - `pkg/isa/itype/jalr.go:16-17`
-  - JALR é um jump indireto via registrador, não um branch condicional
-  - Remover `IsBranch: true`, manter apenas `IsJump: true`
-
-- [ ] **SW com `ProduceStage: 0`**
-  - `pkg/isa/stype/sw.go:22`
-  - Stores não escrevem registrador (`WritesRegister: false`), então `ProduceStage` não deveria ser acessado
-  - Trocar para `ProduceStage: isa.WB` ou omitir — deixar explícito que não é usado
-
 - [ ] **Parâmetro `forwarding` ignorado no control hazard detector**
   - `pkg/hazard/control_detector.go:5`
   - O parâmetro é aceito mas nunca usado dentro da função
