@@ -4,15 +4,6 @@ Itens organizados por prioridade. Bugs silenciosos (decodificação errada sem e
 
 ---
 
-## Bugs menores
-
-- [ ] **Parâmetro `forwarding` ignorado no control hazard detector**
-  - `pkg/hazard/control_detector.go:5`
-  - O parâmetro é aceito mas nunca usado dentro da função
-  - Remover o parâmetro da assinatura ou documentar por que está lá
-
----
-
 ## Instruções faltando — R-Type
 
 - [ ] **AND** — funct3=0x7, funct7=0x00
@@ -38,11 +29,6 @@ Itens organizados por prioridade. Bugs silenciosos (decodificação errada sem e
 ---
 
 ## Melhorias no pipeline
-
-- [ ] **Reduzir overhead de control hazard com forwarding ativo**
-  - Hoje: insere NOP para qualquer branch/jump ainda no pipeline
-  - Melhoria: se forwarding=true, branch resolve no estágio EX — reduzir stalls de 3 para 1
-  - `pkg/hazard/control_detector.go`
 
 - [ ] **Suporte a `LH` e `LHU` no I-Type (loads de halfword)**
   - funct3=0x1 (LH) e funct3=0x5 (LHU)
