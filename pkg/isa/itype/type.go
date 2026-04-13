@@ -26,8 +26,10 @@ const (
 
 // Definição de funct3 para LOAD
 const (
-	FUNCT3_LB = 0x0
-	FUNCT3_LW = 0x2
+	FUNCT3_LB  = 0x0
+	FUNCT3_LH  = 0x1
+	FUNCT3_LW  = 0x2
+	FUNCT3_LHU = 0x5
 )
 
 type Type struct {
@@ -68,7 +70,7 @@ func (i *Type) findInstruction() isa.Instruction {
 		case FUNCT3_ORI:
 			return newORI(*i)
 		case FUNCT3_ANDI:
-			return NewANDI(*i)
+			return newANDI(*i)
 		case FUNCT3_SLLI:
 			return newSLLI(*i)
 		case FUNCT3_SRxI:
@@ -79,10 +81,14 @@ func (i *Type) findInstruction() isa.Instruction {
 		}
 	case OP_LOAD:
 		switch i.Funct3 {
-		case FUNCT3_LW:
-			return newLW(*i)
 		case FUNCT3_LB:
 			return newLB(*i)
+		case FUNCT3_LH:
+			return newLH(*i)
+		case FUNCT3_LW:
+			return newLW(*i)
+		case FUNCT3_LHU:
+			return newLHU(*i)
 		}
 	case OP_JALR:
 		return newJALR(*i)

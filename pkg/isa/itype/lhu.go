@@ -2,16 +2,16 @@ package itype
 
 import isa "riscv-instruction-encoder/pkg/isa"
 
-type ANDI struct {
+type LHU struct {
 	Type
 }
 
-func newANDI(t Type) *ANDI {
-	inst := &ANDI{Type: t}
+func newLHU(t Type) *LHU {
+	inst := &LHU{Type: t}
 	inst.InstructionMeta = isa.InstructionMeta{
-		Name:           "ANDI",
+		Name:           "LHU",
 		OpCode:         uint32(t.OpCode),
-		IsLoad:         false,
+		IsLoad:         true,
 		IsStore:        false,
 		IsBranch:       false,
 		IsJump:         false,
@@ -19,7 +19,7 @@ func newANDI(t Type) *ANDI {
 		ReadsRegister:  true,
 		Rs:             []int{int(t.Rs1)},
 		Rd:             isa.IntPtr(int(t.Rd)),
-		ProduceStage:   isa.EX,
+		ProduceStage:   isa.MEM,
 		ConsumeStage:   isa.ID,
 	}
 	return inst

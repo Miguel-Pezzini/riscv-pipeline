@@ -41,6 +41,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	if len(os.Args) > 1 {
+		fileName = os.Args[1]
+	}
+
 	encodedInstructions := decoder.DecodeFromFile(fileName, format)
 
 	executions := []struct {
