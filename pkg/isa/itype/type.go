@@ -14,9 +14,14 @@ const (
 
 // Definição de funct3 para OP_IMM
 const (
-	FUNCT3_ADDI = 0x0
-	FUNCT3_ORI  = 0x6
-	FUNCT3_ANDI = 0x7
+	FUNCT3_ADDI  = 0x0
+	FUNCT3_SLTI  = 0x2
+	FUNCT3_SLTIU = 0x3
+	FUNCT3_XORI  = 0x4
+	FUNCT3_ORI   = 0x6
+	FUNCT3_ANDI  = 0x7
+	FUNCT3_SLLI  = 0x1
+	FUNCT3_SRxI  = 0x5 // SRLI (imm[11:5]=0x00) and SRAI (imm[11:5]=0x20)
 )
 
 // Definição de funct3 para LOAD
@@ -54,10 +59,23 @@ func (i *Type) findInstruction() isa.Instruction {
 		switch i.Funct3 {
 		case FUNCT3_ADDI:
 			return newADDI(*i)
+		case FUNCT3_SLTI:
+			return newSLTI(*i)
+		case FUNCT3_SLTIU:
+			return newSLTIU(*i)
+		case FUNCT3_XORI:
+			return newXORI(*i)
 		case FUNCT3_ORI:
 			return newORI(*i)
 		case FUNCT3_ANDI:
 			return NewANDI(*i)
+		case FUNCT3_SLLI:
+			return newSLLI(*i)
+		case FUNCT3_SRxI:
+			if (i.Imm>>5)&0x7F == 0x20 {
+				return newSRAI(*i)
+			}
+			return newSRLI(*i)
 		}
 	case OP_LOAD:
 		switch i.Funct3 {

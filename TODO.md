@@ -6,25 +6,25 @@ Itens organizados por prioridade. Bugs silenciosos (decodificação errada sem e
 
 ## Instruções faltando — R-Type
 
-- [ ] **AND** — funct3=0x7, funct7=0x00
-- [ ] **OR** — funct3=0x6, funct7=0x00
-- [ ] **XOR** — funct3=0x4, funct7=0x00
-- [ ] **SLL** (shift left logical) — funct3=0x1, funct7=0x00
-- [ ] **SRL** (shift right logical) — funct3=0x5, funct7=0x00
-- [ ] **SRA** (shift right arithmetic) — funct3=0x5, funct7=0x20
-- [ ] **SLT** (set less than) — funct3=0x2, funct7=0x00
-- [ ] **SLTU** — funct3=0x3, funct7=0x00
+- [x] **AND** — funct3=0x7, funct7=0x00
+- [x] **OR** — funct3=0x6, funct7=0x00
+- [x] **XOR** — funct3=0x4, funct7=0x00
+- [x] **SLL** (shift left logical) — funct3=0x1, funct7=0x00
+- [x] **SRL** (shift right logical) — funct3=0x5, funct7=0x00
+- [x] **SRA** (shift right arithmetic) — funct3=0x5, funct7=0x20
+- [x] **SLT** (set less than) — funct3=0x2, funct7=0x00
+- [x] **SLTU** — funct3=0x3, funct7=0x00
 
 ---
 
 ## Instruções faltando — I-Type
 
-- [ ] **XORI** — funct3=0x4
-- [ ] **SLTI** — funct3=0x2
-- [ ] **SLTIU** — funct3=0x3
-- [ ] **SLLI** (shift imediato) — funct3=0x1
-- [ ] **SRLI** — funct3=0x5, imm[11:5]=0x00
-- [ ] **SRAI** — funct3=0x5, imm[11:5]=0x20
+- [x] **XORI** — funct3=0x4
+- [x] **SLTI** — funct3=0x2
+- [x] **SLTIU** — funct3=0x3
+- [x] **SLLI** (shift imediato) — funct3=0x1
+- [x] **SRLI** — funct3=0x5, imm[11:5]=0x00
+- [x] **SRAI** — funct3=0x5, imm[11:5]=0x20
 
 ---
 

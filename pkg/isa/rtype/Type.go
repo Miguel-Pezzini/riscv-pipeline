@@ -36,6 +36,22 @@ func (r *Type) findInstruction(funct3 uint8, funct7 uint8) isa.Instruction {
 		return newADD(*r)
 	case funct7 == 0x20 && funct3 == 0x00:
 		return newSUB(*r)
+	case funct7 == 0x00 && funct3 == 0x7:
+		return newAND(*r)
+	case funct7 == 0x00 && funct3 == 0x6:
+		return newOR(*r)
+	case funct7 == 0x00 && funct3 == 0x4:
+		return newXOR(*r)
+	case funct7 == 0x00 && funct3 == 0x1:
+		return newSLL(*r)
+	case funct7 == 0x00 && funct3 == 0x5:
+		return newSRL(*r)
+	case funct7 == 0x20 && funct3 == 0x5:
+		return newSRA(*r)
+	case funct7 == 0x00 && funct3 == 0x2:
+		return newSLT(*r)
+	case funct7 == 0x00 && funct3 == 0x3:
+		return newSLTU(*r)
 	}
 
 	return r
