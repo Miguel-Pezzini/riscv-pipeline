@@ -26,3 +26,10 @@ func newXORI(t Type) *XORI {
 
 	return inst
 }
+
+func (x *XORI) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(x.Rs1))
+	imm := isa.SignExtend12(x.Imm)
+	state.WriteReg(int(x.Rd), rs1^imm)
+	return nil
+}

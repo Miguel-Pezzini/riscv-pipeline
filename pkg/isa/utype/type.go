@@ -47,6 +47,17 @@ func (u *Type) Decode(inst uint32) isa.Instruction {
 	return u
 }
 
+func (u *Type) Execute(state isa.CPUState) error {
+	switch u.Opcode {
+	case 0x37: // LUI
+		state.WriteReg(int(u.Rd), int32(u.Imm<<12))
+	case 0x17: // AUIPC
+		pc := state.GetPC()
+		state.WriteReg(int(u.Rd), int32(pc)+int32(u.Imm<<12))
+	}
+	return nil
+}
+
 func (u *Type) String() string {
 	name := u.InstructionMeta.Name
 	if name == "" {

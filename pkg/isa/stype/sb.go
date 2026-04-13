@@ -24,3 +24,11 @@ func newSB(t Type) *SB {
 	}
 	return inst
 }
+
+func (s *SB) Execute(state isa.CPUState) error {
+	base := state.ReadReg(int(s.Rs1))
+	offset := isa.SignExtend12(s.Imm)
+	addr := uint32(base + offset)
+	val := state.ReadReg(int(s.Rs2))
+	return state.StoreByte(addr, int8(val))
+}

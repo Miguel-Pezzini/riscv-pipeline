@@ -26,3 +26,10 @@ func newSLL(t Type) *SLL {
 
 	return inst
 }
+
+func (s *SLL) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(s.Rs1))
+	shamt := state.ReadReg(int(s.Rs2)) & 0x1F
+	state.WriteReg(int(s.Rd), rs1<<shamt)
+	return nil
+}

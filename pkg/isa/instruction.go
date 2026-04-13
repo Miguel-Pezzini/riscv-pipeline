@@ -47,6 +47,7 @@ type Instruction interface {
 	ExecuteAccessOperand()
 	ExecuteWriteBack()
 	GetMeta() InstructionMeta
+	Execute(state CPUState) error
 }
 
 type PipelineInstruction struct {
@@ -80,6 +81,10 @@ func (b *BaseInstruction) ExecuteOperation() {}
 func (b *BaseInstruction) ExecuteAccessOperand() {}
 
 func (b *BaseInstruction) ExecuteWriteBack() {}
+
+func (b *BaseInstruction) Execute(state CPUState) error {
+	return fmt.Errorf("execute not implemented: %s", b.InstructionMeta.Name)
+}
 
 type RawInstruction struct {
 	Origin string

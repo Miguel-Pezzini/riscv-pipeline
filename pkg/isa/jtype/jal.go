@@ -26,3 +26,11 @@ func newJAL(t Type) *JAL {
 
 	return inst
 }
+
+func (j *JAL) Execute(state isa.CPUState) error {
+	pc := state.GetPC()
+	offset := isa.DecodeJImm(j.Imm)
+	state.WriteReg(int(j.Rd), int32(pc+4))
+	state.SetPC(uint32(int32(pc)+offset) - 4) // loop will add 4
+	return nil
+}

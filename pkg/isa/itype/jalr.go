@@ -24,3 +24,13 @@ func newJALR(t Type) *JALR {
 	}
 	return inst
 }
+
+func (j *JALR) Execute(state isa.CPUState) error {
+	pc := state.GetPC()
+	rs1 := state.ReadReg(int(j.Rs1))
+	imm := isa.SignExtend12(j.Imm)
+	target := uint32((rs1 + imm)) & ^uint32(1)
+	state.WriteReg(int(j.Rd), int32(pc+4))
+	state.SetPC(target - 4) // loop will add 4
+	return nil
+}

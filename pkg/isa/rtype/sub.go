@@ -26,3 +26,10 @@ func newSUB(t Type) *SUB {
 
 	return inst
 }
+
+func (s *SUB) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(s.Rs1))
+	rs2 := state.ReadReg(int(s.Rs2))
+	state.WriteReg(int(s.Rd), rs1-rs2)
+	return nil
+}

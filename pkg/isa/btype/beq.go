@@ -26,3 +26,14 @@ func newBEQ(t Type) *BEQ {
 
 	return inst
 }
+
+func (b *BEQ) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(b.Rs1))
+	rs2 := state.ReadReg(int(b.Rs2))
+	if rs1 == rs2 {
+		pc := state.GetPC()
+		offset := isa.SignExtend13(b.Imm)
+		state.SetPC(uint32(int32(pc)+offset) - 4)
+	}
+	return nil
+}

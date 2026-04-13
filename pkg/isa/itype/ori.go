@@ -24,3 +24,10 @@ func newORI(t Type) *ORI {
 	}
 	return inst
 }
+
+func (o *ORI) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(o.Rs1))
+	imm := isa.SignExtend12(o.Imm)
+	state.WriteReg(int(o.Rd), rs1|imm)
+	return nil
+}

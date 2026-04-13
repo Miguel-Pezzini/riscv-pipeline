@@ -26,3 +26,10 @@ func newSLLI(t Type) *SLLI {
 
 	return inst
 }
+
+func (s *SLLI) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(s.Rs1))
+	shamt := s.Imm & 0x1F
+	state.WriteReg(int(s.Rd), rs1<<shamt)
+	return nil
+}

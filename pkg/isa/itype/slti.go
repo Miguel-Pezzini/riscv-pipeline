@@ -26,3 +26,14 @@ func newSLTI(t Type) *SLTI {
 
 	return inst
 }
+
+func (s *SLTI) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(s.Rs1))
+	imm := isa.SignExtend12(s.Imm)
+	if rs1 < imm {
+		state.WriteReg(int(s.Rd), 1)
+	} else {
+		state.WriteReg(int(s.Rd), 0)
+	}
+	return nil
+}

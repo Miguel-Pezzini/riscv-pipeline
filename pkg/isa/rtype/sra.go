@@ -26,3 +26,10 @@ func newSRA(t Type) *SRA {
 
 	return inst
 }
+
+func (s *SRA) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(s.Rs1))
+	shamt := state.ReadReg(int(s.Rs2)) & 0x1F
+	state.WriteReg(int(s.Rd), rs1>>shamt) // Go arithmetic right shift on signed
+	return nil
+}

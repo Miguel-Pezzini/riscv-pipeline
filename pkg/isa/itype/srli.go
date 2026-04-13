@@ -26,3 +26,10 @@ func newSRLI(t Type) *SRLI {
 
 	return inst
 }
+
+func (s *SRLI) Execute(state isa.CPUState) error {
+	rs1 := uint32(state.ReadReg(int(s.Rs1)))
+	shamt := s.Imm & 0x1F
+	state.WriteReg(int(s.Rd), int32(rs1>>shamt))
+	return nil
+}

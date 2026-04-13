@@ -26,3 +26,14 @@ func newBGE(t Type) *BGE {
 
 	return inst
 }
+
+func (b *BGE) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(b.Rs1))
+	rs2 := state.ReadReg(int(b.Rs2))
+	if rs1 >= rs2 {
+		pc := state.GetPC()
+		offset := isa.SignExtend13(b.Imm)
+		state.SetPC(uint32(int32(pc)+offset) - 4)
+	}
+	return nil
+}

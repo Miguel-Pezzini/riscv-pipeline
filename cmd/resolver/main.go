@@ -45,7 +45,11 @@ func main() {
 		fileName = os.Args[1]
 	}
 
-	encodedInstructions := decoder.DecodeFromFile(fileName, format)
+	encodedInstructions, err := decoder.DecodeFromFile(fileName, format)
+	if err != nil {
+		fmt.Printf("erro ao decodificar arquivo: %v\n", err)
+		os.Exit(1)
+	}
 
 	executions := []struct {
 		forwarding           bool

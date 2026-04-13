@@ -26,3 +26,10 @@ func newOR(t Type) *OR {
 
 	return inst
 }
+
+func (o *OR) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(o.Rs1))
+	rs2 := state.ReadReg(int(o.Rs2))
+	state.WriteReg(int(o.Rd), rs1|rs2)
+	return nil
+}

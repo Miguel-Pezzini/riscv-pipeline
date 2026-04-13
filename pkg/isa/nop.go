@@ -50,3 +50,7 @@ func (t *NOP) ExecuteAccessOperand() {
 func (t *NOP) ExecuteWriteBack() {
 	fmt.Printf("[WB ] Writing back result of instruction: %s\n", t.InstructionMeta.Name)
 }
+
+func (t *NOP) Execute(state CPUState) error {
+	return nil
+}

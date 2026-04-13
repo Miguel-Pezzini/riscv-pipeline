@@ -24,3 +24,11 @@ func newSH(t Type) *SH {
 	}
 	return inst
 }
+
+func (s *SH) Execute(state isa.CPUState) error {
+	base := state.ReadReg(int(s.Rs1))
+	offset := isa.SignExtend12(s.Imm)
+	addr := uint32(base + offset)
+	val := state.ReadReg(int(s.Rs2))
+	return state.StoreHalf(addr, int16(val))
+}

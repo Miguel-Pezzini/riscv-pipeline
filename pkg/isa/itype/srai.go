@@ -26,3 +26,10 @@ func newSRAI(t Type) *SRAI {
 
 	return inst
 }
+
+func (s *SRAI) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(s.Rs1))
+	shamt := s.Imm & 0x1F
+	state.WriteReg(int(s.Rd), rs1>>shamt) // arithmetic right shift on int32
+	return nil
+}

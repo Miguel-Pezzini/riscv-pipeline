@@ -26,3 +26,10 @@ func newAND(t Type) *AND {
 
 	return inst
 }
+
+func (a *AND) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(a.Rs1))
+	rs2 := state.ReadReg(int(a.Rs2))
+	state.WriteReg(int(a.Rd), rs1&rs2)
+	return nil
+}

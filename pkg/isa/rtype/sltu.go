@@ -26,3 +26,14 @@ func newSLTU(t Type) *SLTU {
 
 	return inst
 }
+
+func (s *SLTU) Execute(state isa.CPUState) error {
+	rs1 := uint32(state.ReadReg(int(s.Rs1)))
+	rs2 := uint32(state.ReadReg(int(s.Rs2)))
+	if rs1 < rs2 {
+		state.WriteReg(int(s.Rd), 1)
+	} else {
+		state.WriteReg(int(s.Rd), 0)
+	}
+	return nil
+}

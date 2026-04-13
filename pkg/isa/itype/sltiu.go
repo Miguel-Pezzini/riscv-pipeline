@@ -26,3 +26,14 @@ func newSLTIU(t Type) *SLTIU {
 
 	return inst
 }
+
+func (s *SLTIU) Execute(state isa.CPUState) error {
+	rs1 := uint32(state.ReadReg(int(s.Rs1)))
+	imm := uint32(isa.SignExtend12(s.Imm))
+	if rs1 < imm {
+		state.WriteReg(int(s.Rd), 1)
+	} else {
+		state.WriteReg(int(s.Rd), 0)
+	}
+	return nil
+}

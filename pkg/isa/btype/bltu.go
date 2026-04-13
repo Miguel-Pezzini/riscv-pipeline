@@ -26,3 +26,14 @@ func newBLTU(t Type) *BLTU {
 
 	return inst
 }
+
+func (b *BLTU) Execute(state isa.CPUState) error {
+	rs1 := uint32(state.ReadReg(int(b.Rs1)))
+	rs2 := uint32(state.ReadReg(int(b.Rs2)))
+	if rs1 < rs2 {
+		pc := state.GetPC()
+		offset := isa.SignExtend13(b.Imm)
+		state.SetPC(uint32(int32(pc)+offset) - 4)
+	}
+	return nil
+}

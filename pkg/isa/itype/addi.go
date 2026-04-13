@@ -26,3 +26,10 @@ func newADDI(t Type) *ADDI {
 
 	return inst
 }
+
+func (a *ADDI) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(a.Rs1))
+	imm := isa.SignExtend12(a.Imm)
+	state.WriteReg(int(a.Rd), rs1+imm)
+	return nil
+}

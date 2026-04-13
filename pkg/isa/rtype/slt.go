@@ -26,3 +26,14 @@ func newSLT(t Type) *SLT {
 
 	return inst
 }
+
+func (s *SLT) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(s.Rs1))
+	rs2 := state.ReadReg(int(s.Rs2))
+	if rs1 < rs2 {
+		state.WriteReg(int(s.Rd), 1)
+	} else {
+		state.WriteReg(int(s.Rd), 0)
+	}
+	return nil
+}

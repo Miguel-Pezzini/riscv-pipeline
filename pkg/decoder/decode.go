@@ -3,7 +3,6 @@ package decoder
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"riscv-instruction-encoder/pkg/isa"
 	"riscv-instruction-encoder/pkg/isa/btype"
@@ -69,12 +68,12 @@ func DecodeInstructionFromUInt32(encodedInstructions []isa.RawInstruction) []isa
 	return instructions
 }
 
-func DecodeFromFile(filePath string, format string) []isa.RawInstruction {
+func DecodeFromFile(filePath string, format string) ([]isa.RawInstruction, error) {
 	var instructions []isa.RawInstruction
 
 	file, err := os.Open(filePath)
 	if err != nil {
-		log.Fatalf("erro ao abrir arquivo: %v", err)
+		return nil, fmt.Errorf("erro ao abrir arquivo: %w", err)
 	}
 	defer file.Close()
 
@@ -87,14 +86,14 @@ func DecodeFromFile(filePath string, format string) []isa.RawInstruction {
 	case FORMAT_HEX:
 		base = 16
 	default:
-		log.Fatalf("formato inválido: %s (use 'bin' ou 'hex')", format)
+		return nil, fmt.Errorf("formato inválido: %s (use 'bin' ou 'hex')", format)
 	}
 
 	for scanner.Scan() {
 		row := scanner.Text()
 		num, err := strconv.ParseUint(row, base, 32)
 		if err != nil {
-			panic(err)
+			return nil, fmt.Errorf("erro ao decodificar instrução %q: %w", row, err)
 		}
 		instructions = append(instructions, isa.RawInstruction{
 			Origin: row,
@@ -102,5 +101,9 @@ func DecodeFromFile(filePath string, format string) []isa.RawInstruction {
 		})
 	}
 
-	return instructions
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("erro ao ler arquivo: %w", err)
+	}
+
+	return instructions, nil
 }

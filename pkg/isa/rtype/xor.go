@@ -26,3 +26,10 @@ func newXOR(t Type) *XOR {
 
 	return inst
 }
+
+func (x *XOR) Execute(state isa.CPUState) error {
+	rs1 := state.ReadReg(int(x.Rs1))
+	rs2 := state.ReadReg(int(x.Rs2))
+	state.WriteReg(int(x.Rd), rs1^rs2)
+	return nil
+}
