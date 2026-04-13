@@ -16,11 +16,41 @@ func (u *Type) Decode(inst uint32) isa.Instruction {
 	u.Opcode = uint8(inst & 0x7F)
 	u.Rd = uint8((inst >> 7) & 0x1F)
 	u.Imm = uint32(inst>>12) & 0xFFFFF
-	u.InstructionMeta = isa.InstructionMeta{}
+
+	switch u.Opcode {
+	case 0x37: // LUI
+		u.InstructionMeta = isa.InstructionMeta{
+			Name:           "LUI",
+			OpCode:         uint32(u.Opcode),
+			WritesRegister: true,
+			ReadsRegister:  false,
+			Rs:             []int{},
+			Rd:             isa.IntPtr(int(u.Rd)),
+			ProduceStage:   isa.EX,
+			ConsumeStage:   isa.ID,
+		}
+	case 0x17: // AUIPC
+		u.InstructionMeta = isa.InstructionMeta{
+			Name:           "AUIPC",
+			OpCode:         uint32(u.Opcode),
+			WritesRegister: true,
+			ReadsRegister:  false,
+			Rs:             []int{},
+			Rd:             isa.IntPtr(int(u.Rd)),
+			ProduceStage:   isa.EX,
+			ConsumeStage:   isa.ID,
+		}
+	default:
+		u.InstructionMeta = isa.InstructionMeta{}
+	}
+
 	return u
 }
 
 func (u *Type) String() string {
-	return fmt.Sprintf("formato = U {opcode=%02X, rd=%d, imm=%d}",
-		u.Opcode, u.Rd, u.Imm)
+	name := u.InstructionMeta.Name
+	if name == "" {
+		name = fmt.Sprintf("U?(%02X)", u.Opcode)
+	}
+	return fmt.Sprintf("%s rd=%d, imm=0x%X", name, u.Rd, u.Imm)
 }

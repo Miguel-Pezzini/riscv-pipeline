@@ -60,7 +60,14 @@ func (s *Type) getInstructionName() string {
 func (s *Type) findInstruction() isa.Instruction {
 	switch s.OpCode {
 	case STORE:
-		return newSW(*s) // default para SW, adapte se quiser SH/SB
+		switch s.Funct3 {
+		case FUNCT3_SB:
+			return newSB(*s)
+		case FUNCT3_SH:
+			return newSH(*s)
+		case FUNCT3_SW:
+			return newSW(*s)
+		}
 	}
 	return s
 }
