@@ -82,3 +82,9 @@ Quando há hazard: um NOP é inserido antes da instrução problemática.
 - PC é calculado como `index * 4` no início da simulação (`runner/run.go:InstructionsToPipeline`)
 - Arquivos de saída ficam em `pkg/files/` — não commitar conteúdo gerado
 - Módulo Go: `riscv-instruction-encoder` (go.mod)
+
+## Testes
+
+- **Toda mudança ou fix deve ter testes correspondentes.** Se a funcionalidade alterada não possui testes, crie-os. Se já existem, atualize conforme necessário.
+- **Ao final de cada prompt, rode `go test ./...`** para garantir que nada foi quebrado e que os novos testes passam.
+- Comando: `go test ./...`
