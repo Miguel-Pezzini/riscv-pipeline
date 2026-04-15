@@ -1,6 +1,7 @@
 package executor
 
 import (
+	"errors"
 	"strings"
 	"testing"
 
@@ -37,5 +38,26 @@ func TestECALLUnsupportedServiceReturnsError(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "unsupported ECALL service 1") {
 		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestRunReturnsMaxStepsError(t *testing.T) {
+	state := cpu.NewState()
+	if err := state.StoreWord(cpu.TextBase, 0x00000013); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	exec := New(state, Config{MaxSteps: 1})
+	err := exec.Run()
+	if err == nil {
+		t.Fatal("expected max steps error")
+	}
+
+	var maxErr *MaxStepsError
+	if !errors.As(err, &maxErr) {
+		t.Fatalf("expected MaxStepsError, got %T (%v)", err, err)
+	}
+	if maxErr.MaxSteps != 1 {
+		t.Fatalf("MaxSteps = %d, want 1", maxErr.MaxSteps)
 	}
 }

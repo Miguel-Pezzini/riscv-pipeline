@@ -15,7 +15,7 @@ func (p *Pipeline) writeFile() {
 	_, _ = file.WriteString("PC\tInstruction\n")
 	_, _ = file.WriteString("===============================\n")
 	for _, instr := range p.Instructions {
-		line := fmt.Sprintf("0x%08X\t%s\n", instr.OriginalPC, instr.Instruction.String())
+		line := fmt.Sprintf("0x%08X\t%s\n", instr.PC, instr.Instruction.String())
 		_, err := file.WriteString(line)
 		if err != nil {
 			fmt.Printf("Error to write in file %s: %v\n", p.file_path, err)
@@ -34,9 +34,12 @@ func (p *Pipeline) printResult() {
 
 	origCount := len(p.Instructions) - countNop
 	totalCount := len(p.Instructions)
-	overhead := float64(totalCount-origCount) / float64(origCount) * 100
+	overhead := 0.0
+	if origCount > 0 {
+		overhead = float64(totalCount-origCount) / float64(origCount) * 100
+	}
 
-	fmt.Printf("\nInput: fib_rec_binario.txt (%d instruções)\n", origCount)
+	fmt.Printf("\nEntrada analisada: %d instruções\n", origCount)
 	fmt.Println("Model pipeline: IF ID EX MEM WB")
 	fmt.Println()
 

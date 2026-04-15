@@ -6,6 +6,14 @@ import (
 	"riscv-instruction-encoder/pkg/isa"
 )
 
+type MaxStepsError struct {
+	MaxSteps int
+}
+
+func (e *MaxStepsError) Error() string {
+	return fmt.Sprintf("max steps (%d) exceeded", e.MaxSteps)
+}
+
 type Config struct {
 	MaxSteps int
 	Trace    bool
@@ -99,5 +107,5 @@ func (e *Executor) Run() error {
 			fmt.Print(FormatTrace(result))
 		}
 	}
-	return fmt.Errorf("max steps (%d) exceeded", e.Config.MaxSteps)
+	return &MaxStepsError{MaxSteps: e.Config.MaxSteps}
 }

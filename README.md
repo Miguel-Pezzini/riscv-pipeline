@@ -6,6 +6,7 @@ Simulador educacional de pipeline RISC-V de 5 estágios com detecção de hazard
 
 - Decodificação de instruções RISC-V a partir de binário ou hexadecimal
 - Simulação de pipeline clássico de 5 estágios: **IF → ID → EX → MEM → WB**
+- Integração opcional entre execução real e análise de pipeline via traço dinâmico executado
 - Detecção de **data hazards** (RAW e WAR) com e sem forwarding
 - Detecção de **control hazards** (branches e jumps não resolvidos)
 - Inserção automática de NOPs para resolver hazards
@@ -66,6 +67,19 @@ Cada arquivo em `pkg/files/` contém as instruções com NOPs inseridos:
 0x4     NOP
 0x8     ADD x3, x1, x2
 ```
+
+### Execução real + pipeline
+
+O binário `cmd/simulator` pode executar o programa de verdade e depois reutilizar o traço dinâmico gerado para rodar a análise de pipeline sobre o caminho realmente executado:
+
+```bash
+go run cmd/simulator/main.go --format hex --max-steps 200 --dump-regs --pipeline testdata/hex.txt
+```
+
+Flags úteis:
+- `--pipeline` gera os 6 cenários de pipeline a partir do histórico real de execução
+- `--pipeline-out-dir <dir>` escolhe onde escrever os relatórios gerados
+- `--max-steps N` permite analisar programas sem parada explícita usando um traço parcial
 
 ## Cenários de simulação
 

@@ -71,6 +71,7 @@ func createNOP() *isa.PipelineInstruction {
 		HasStarted:   true,
 		HasCompleted: false,
 		Id:           -1,
+		OriginalPC:   -1,
 	}
 }
 
@@ -133,13 +134,16 @@ func (p *Pipeline) Step() {
 	p.executingInstructions = active
 }
 
-func Run(instructions []isa.Instruction, forwarding bool, data_hazard bool, control_hazard bool, file_path string) {
-	p := NewPipeline(instructions, forwarding, data_hazard, control_hazard, file_path)
-
+func (p *Pipeline) Run() {
 	for !p.hasCompleted() {
 		p.CurrentCycle++
 		p.Step()
 	}
+}
+
+func Run(instructions []isa.Instruction, forwarding bool, data_hazard bool, control_hazard bool, file_path string) {
+	p := NewPipeline(instructions, forwarding, data_hazard, control_hazard, file_path)
+	p.Run()
 	p.printResult()
 	p.writeFile()
 }
